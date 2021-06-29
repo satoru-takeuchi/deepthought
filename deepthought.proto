@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package deepthought;
+
+option go_package = "github.com/satoru-takeuchi/deepthought";
+
+message BootRequest {}
+
+message BootResponse {
+    string message = 1;
+}
+
+message InferRequest {
+    string message = 1;
+}
+
+message InferResponse {
+    sint64 answer = 1;
+    repeated string description = 2;
+}
+
+service Compute {
+    rpc Boot(BootRequest) returns (stream BootResponse);
+    rpc Infer(InferRequest) returns (InferResponse);
+}
