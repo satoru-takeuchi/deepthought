@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/satoru-takeuchi/deepthought"
+	"github.com/satoru-takeuchi/deepthought/go/deepthought"
 	"google.golang.org/grpc"
 )
 

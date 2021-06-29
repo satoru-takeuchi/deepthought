@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/satoru-takeuchi/deepthought"
+	"github.com/satoru-takeuchi/deepthought/go/deepthought"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

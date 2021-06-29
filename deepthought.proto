@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package deepthought;
 
-option go_package = "github.com/satoru-takeuchi/deepthought";
+option go_package = "github.com/satoru-takeuchi/deepthought/go/deepthought";
 
 message BootRequest {}
 
