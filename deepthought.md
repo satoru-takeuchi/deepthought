@@ -55,7 +55,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| message | [string](#string) |  |  |
+| query | [string](#string) |  |  |
 
 
 
