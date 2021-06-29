@@ -55,7 +55,7 @@ func subMain() error {
 	cc := deepthought.NewComputeClient(conn)
 	ctx, cancel := context.WithCancel(context.Background())
 	go func(cancel func()) {
-		time.Sleep(10 * time.Second)
+		time.Sleep(5 * time.Second)
 		cancel()
 	}(cancel)
 
@@ -71,8 +71,8 @@ func subMain() error {
 	for {
 		queries := []string{"foo", "Life", "Universe", "Everyting"}
 		q := queries[rand.Intn(len(queries))]
-		n := (rand.Intn(10) + 1) * 100
-		fmt.Printf("query %q with deadline(%d ms)\n", q, n)
+		n := (rand.Intn(5) + 5) * 100
+		fmt.Printf("query %q with deadline(now + %d ms)\n", q, n)
 		ctx2, cancel := context.WithDeadline(ctx, time.Now().Add(time.Duration(n)*time.Millisecond))
 		defer cancel()
 
