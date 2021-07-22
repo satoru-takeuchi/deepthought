@@ -13,6 +13,7 @@ import (
 	"github.com/satoru-takeuchi/deepthought/go/deepthought"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/status"
 )
 
@@ -47,7 +48,10 @@ func subMain() error {
 		return fmt.Errorf("usage: %s <host:port>", os.Args[0])
 	}
 	addr := os.Args[1]
-	conn, err := grpc.Dial(addr, grpc.WithInsecure())
+	kp := keepalive.ClientParameters{
+		Time: 10 * time.Second,
+	}
+	conn, err := grpc.Dial(addr, grpc.WithInsecure(), grpc.WithKeepaliveParams(kp))
 	if err != nil {
 		return err
 	}
@@ -55,7 +59,7 @@ func subMain() error {
 	cc := deepthought.NewComputeClient(conn)
 	ctx, cancel := context.WithCancel(context.Background())
 	go func(cancel func()) {
-		time.Sleep(5 * time.Second)
+		time.Sleep(100 * time.Second)
 		cancel()
 	}(cancel)
 
@@ -69,14 +73,10 @@ func subMain() error {
 	go handleBoot(&wg, stream)
 
 	for {
-		queries := []string{"foo", "Life", "Universe", "Everyting"}
-		q := queries[rand.Intn(len(queries))]
-		n := (rand.Intn(5) + 5) * 100
-		fmt.Printf("query %q with deadline(now + %d ms)\n", q, n)
-		ctx2, cancel := context.WithDeadline(ctx, time.Now().Add(time.Duration(n)*time.Millisecond))
-		defer cancel()
+		q := "Universe"
+		fmt.Printf("query %q\n", q)
 
-		resp, err := cc.Infer(ctx2, &deepthought.InferRequest{Query: q})
+		resp, err := cc.Infer(ctx, &deepthought.InferRequest{Query: q})
 		if err != nil {
 			code := status.Code(err)
 			if code == codes.InvalidArgument || code == codes.DeadlineExceeded {

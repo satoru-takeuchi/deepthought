@@ -40,12 +40,8 @@ func (s *Server) Infer(ctx context.Context, req *deepthought.InferRequest) (*dee
 	default:
 		return nil, status.Error(codes.InvalidArgument, "Contemplate your query")
 	}
-	deadline, ok := ctx.Deadline()
-	if !ok || time.Until(deadline) > 750*time.Millisecond {
-		time.Sleep(750 * time.Millisecond)
-		return &deepthought.InferResponse{
-			Answer: 42,
-		}, nil
-	}
-	return nil, status.Error(codes.DeadlineExceeded, "It would take longer")
+	time.Sleep(41 * time.Second)
+	return &deepthought.InferResponse{
+		Answer: 42,
+	}, nil
 }
