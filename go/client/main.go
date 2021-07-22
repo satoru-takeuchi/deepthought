@@ -59,7 +59,7 @@ func subMain() error {
 		cancel()
 	}(cancel)
 
-	stream, err := cc.Boot(ctx, &deepthought.BootRequest{})
+	stream, err := cc.Boot(ctx, &deepthought.BootRequest{Silent: true})
 	if err != nil {
 		return err
 	}
@@ -88,7 +88,7 @@ func subMain() error {
 			}
 			return err
 		}
-		fmt.Printf("answer to %q is %d, desc is %s\n", q, resp.Answer, resp.Description)
+		fmt.Printf("answer to %q is %d\n", q, resp.Answer)
 		time.Sleep(500 * time.Millisecond)
 	}
 }

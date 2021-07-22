@@ -16,6 +16,9 @@ type Server struct {
 var _ deepthought.ComputeServer = &Server{}
 
 func (s *Server) Boot(req *deepthought.BootRequest, stream deepthought.Compute_BootServer) error {
+	if req.Silent {
+		return nil
+	}
 	for {
 		select {
 		case <-stream.Context().Done():
@@ -41,8 +44,7 @@ func (s *Server) Infer(ctx context.Context, req *deepthought.InferRequest) (*dee
 	if !ok || time.Until(deadline) > 750*time.Millisecond {
 		time.Sleep(750 * time.Millisecond)
 		return &deepthought.InferResponse{
-			Answer:      42,
-			Description: []string{"I checked it"},
+			Answer: 42,
 		}, nil
 	}
 	return nil, status.Error(codes.DeadlineExceeded, "It would take longer")

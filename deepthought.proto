@@ -4,7 +4,9 @@ package deepthought;
 
 option go_package = "github.com/satoru-takeuchi/deepthought/go/deepthought";
 
-message BootRequest {}
+message BootRequest {
+    bool silent = 1;
+}
 
 message BootResponse {
     string message = 1;
@@ -16,7 +18,9 @@ message InferRequest {
 
 message InferResponse {
     sint64 answer = 1;
-    repeated string description = 2;
+    // repeated string description = 2;
+    reserved 2;
+    reserved "description";
 }
 
 service Compute {
