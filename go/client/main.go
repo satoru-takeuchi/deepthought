@@ -88,7 +88,7 @@ func subMain() error {
 			}
 			return err
 		}
-		fmt.Printf("answer to %q is %d\n", q, resp.Answer)
+		fmt.Printf("answer to %q is %d, desc is %s\n", q, resp.Answer, resp.Description)
 		time.Sleep(500 * time.Millisecond)
 	}
 }
